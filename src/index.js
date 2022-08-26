@@ -12,6 +12,12 @@ const imgApiService = new ImgApiService();
 const options = {
   threshold: 0.2,
 };
+
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 const newObserver = new IntersectionObserver(newObserverCallback, options);
 
 function onFormSubmit(e) {
@@ -40,11 +46,6 @@ function onFormSubmit(e) {
     }
   });
 }
-
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 
 function createMarkup(photos) {
   const markup = photos
