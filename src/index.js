@@ -1,5 +1,8 @@
 import './css/styles.css';
 import ImgApiService from './photos-api';
+import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -14,7 +17,6 @@ const newObserver = new IntersectionObserver(newObserverCallback, options);
 function onFormSubmit(e) {
   e.preventDefault();
 
-  gallery.innerHTML = '';
   imgApiService.query = e.currentTarget.elements.searchQuery.value;
 
   if (imgApiService.query === '') {
@@ -22,14 +24,27 @@ function onFormSubmit(e) {
   }
   imgApiService.resetPage();
   imgApiService.getPhoto().then(data => {
+    gallery.innerHTML = '';
     if (data.length === 0) {
-      console.log(
+      Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      return;
     }
     createMarkup(data);
+
+    if (imgApiService.pageNum === 2) {
+      Notiflix.Notify.success(
+        `Hooray! We found ${imgApiService.totalHits} images.`
+      );
+    }
   });
 }
+
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 function createMarkup(photos) {
   const markup = photos
@@ -68,6 +83,7 @@ function createMarkup(photos) {
     )
     .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
   const lastCard = document.querySelector('.photo-card:last-child');
   if (lastCard) {
     newObserver.observe(lastCard);

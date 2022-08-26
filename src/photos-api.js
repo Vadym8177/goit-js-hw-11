@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Notiflix from 'notiflix';
 
 export default class ImgApiService {
   constructor() {
@@ -7,22 +8,20 @@ export default class ImgApiService {
   }
   async getPhoto() {
     try {
-      const response = await axios
-        .get(
-          `https://pixabay.com/api/?key=29444023-fe7d4e5e60b2e765be0bef471&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.pageNum}&per_page=40`
-        )
-        .catch(function (error) {
-          if (error.response) {
-            console.log(
-              "We're sorry, but you've reached the end of search results."
-            );
-          }
-        });
+      const response = await axios.get(
+        `https://pixabay.com/api/?key=29444023-fe7d4e5e60b2e765be0bef471&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.pageNum}&per_page=40`
+      );
+
       this.nextPage();
+      this.totalHits = response.data.totalHits;
       const photos = response.data.hits;
 
       return photos;
-    } catch (error) {}
+    } catch (error) {
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
   }
   nextPage() {
     this.pageNum += 1;

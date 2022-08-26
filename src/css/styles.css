@@ -29,6 +29,7 @@ img {
   width: 100%;
 }
 .photo-card {
+  display: flex;
   width: 300px;
   flex-basis: calc((100% - 90px) / 4);
   margin-bottom: 23px;
@@ -44,7 +45,11 @@ img {
   right: 0;
   left: 0;
   text-align: center;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: -10px;
+  margin-right: calc(-1 * (100vw - 100%));
+  overflow-x: hidden;
 
   z-index: 10;
   background-color: #2196f3;
@@ -55,14 +60,16 @@ img {
   outline: none;
   border-radius: 4px;
   border: 1px solid;
+  margin-right: 10px;
 }
 
 .search-form button {
   padding: 8px;
   background-color: #188ce8;
   border-radius: 4px;
-  border: transparent;
   cursor: pointer;
+  color: white;
+  border: none;
 }
 
 .gallery {
