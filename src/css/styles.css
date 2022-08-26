@@ -50,9 +50,10 @@ img {
   margin-top: -10px;
   margin-right: calc(-1 * (100vw - 100%));
   overflow-x: hidden;
+  backdrop-filter: blur(7px);
 
   z-index: 10;
-  background-color: #2196f3;
+  background-color: rgba(33, 150, 243, 0.7);
 }
 
 .search-form input {
