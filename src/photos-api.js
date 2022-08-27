@@ -18,9 +18,12 @@ export default class ImgApiService {
 
       return photos;
     } catch (error) {
-      Notiflix.Notify.failure(
-        "We're sorry, but you've reached the end of search results."
-      );
+      if (error) {
+        Notiflix.Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+        return;
+      }
     }
   }
   nextPage() {

@@ -24,13 +24,12 @@ function onFormSubmit(e) {
   e.preventDefault();
 
   imgApiService.query = e.currentTarget.elements.searchQuery.value;
-
+  gallery.innerHTML = '';
   if (imgApiService.query === '') {
     return;
   }
   imgApiService.resetPage();
   imgApiService.getPhoto().then(data => {
-    gallery.innerHTML = '';
     if (data.length === 0) {
       Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -98,6 +97,13 @@ function newObserverCallback(entries) {
 
       imgApiService.getPhoto().then(data => {
         createMarkup(data);
+
+        if (data.length < 40) {
+          newObserver.disconnect(entry.target);
+          return Notiflix.Notify.failure(
+            "We're sorry, but you've reached the end of search results."
+          );
+        }
       });
     }
   });
